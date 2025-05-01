@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { Heart } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Product = {
   id: number;
@@ -15,8 +16,9 @@ type Product = {
 
 export default function ProductCard({ product }: { product: Product }) {
   const [liked, setLiked] = useState(false);
+  const router = useRouter();
   return (
-    <div className="relative group">
+    <div className="relative group" onClick={() => router.push("/shop/id")}>
       {product.label && (
         <span className="absolute top-2 left-2 text-xs font-medium uppercase tracking-[0.05rem]">
           {product.label}
