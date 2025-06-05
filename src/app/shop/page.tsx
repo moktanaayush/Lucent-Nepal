@@ -1,20 +1,25 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Breadcrums from "../../components/Breadcrums";
 import Container from "../../components/Container";
-import ProductGrid from "../../components/ProductGrid";
 import ShopProductGrid from "../../components/products/ShopProductGrid";
 import Filter from "../../components/shop/Filter";
 import SortDropdown from "../../components/shop/SortDropDown";
-
-const products = 111;
-const sortCategory = [
-  "Featured",
-  "Price Low to High",
-  "Price High to Low",
-  "Best Sellers",
-  "Top Rated",
-];
+import { Product } from "../../../lib/types";
 
 export default function ShopPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const fetchProducts = async () => {
+    const res = await fetch(`http://localhost:3001/api/products`);
+    const result = await res.json();
+    setProducts(result.data);
+    // console.log(result.data);
+    console.log(products);
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
   return (
     <>
       <Container>
@@ -33,16 +38,16 @@ export default function ShopPage() {
           <div className="w-4/5 px-4 py-3 ">
             <div className="product-header flex justify-between">
               <div>
-                <p>{products} Products</p>
+                <p>{products.length} Products</p>
               </div>
               <div className="pb-2">
                 <SortDropdown />
               </div>
             </div>
             <div className="productList">
-              <ShopProductGrid />
-              <ShopProductGrid />
-              <ShopProductGrid />
+              <ShopProductGrid products={products} />
+              <ShopProductGrid products={products} />
+              <ShopProductGrid products={products} />
             </div>
           </div>
         </div>

@@ -3,15 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { ChevronUp, ChevronDown } from "lucide-react";
-
-interface Product {
-  id: string;
-  title: string;
-  price: number;
-  images: string[];
-  color: string;
-  sizes: string[];
-}
+import { Product } from "../../../lib/types";
 
 interface ProductDetailLayoutProps {
   product: Product;
@@ -57,11 +49,13 @@ export default function ProductDetail({ product }: ProductDetailLayoutProps) {
         <div className="col-span-5 space-y-6">
           <h1 className="text-2xl font-semibold">{product.title}</h1>
           <p className="text-xl font-medium">${product.price}</p>
-          <p className="text-xs text-gray-500">From $26.76/mo with Klarna.</p>
+          {/* <p className="text-xs text-gray-500">From $26.76/mo with Klarna.</p> */}
 
           {/* Color */}
           <div>
-            <p className="text-sm font-semibold mb-1">COLOR: {product.color}</p>
+            <p className="text-sm font-semibold mb-1">
+              COLOR: {product.colors}
+            </p>
             <Image
               src={product.images[0]}
               alt="Color swatch"
@@ -77,15 +71,15 @@ export default function ProductDetail({ product }: ProductDetailLayoutProps) {
               SIZE: Please select a size
             </p>
             <div className="grid grid-cols-3 gap-2">
-              {product.sizes.map((size) => (
+              {product.size.map((s) => (
                 <button
-                  key={size}
+                  key={s}
                   className={`py-2 border text-sm w-full text-center rounded-sm transition-all 
-                      "text-gray-400 line-through cursor-not-allowed"
-                    //   : "hover:bg-gray-100 hover:shadow-md"
+                      "text-gray-400 line-through"
+                       : "hover:bg-gray-100 hover:shadow-md"
                   }`}
                 >
-                  {size}
+                  {s}
                 </button>
               ))}
             </div>

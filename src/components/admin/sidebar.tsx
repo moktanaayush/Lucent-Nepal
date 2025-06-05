@@ -12,13 +12,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import path from "path";
+// import path from "path";
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 h-screen bg-white shadow-lg rounded-r-xl p-6 flex flex-col">
+    <aside className="w-64 bg-white shadow-lg rounded-r-xl p-6 flex flex-col">
       {/* Logo */}
       <div className="flex items-center justify-center space-x-3 mb-1">
         {/* Replace with your actual logo */}

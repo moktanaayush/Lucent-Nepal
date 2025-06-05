@@ -3,22 +3,16 @@ import Image from "next/image";
 import { Heart } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  currency: string;
-  label: string;
-  image: string;
-  colors: string[];
-};
+import { Product } from "../../../lib/types";
 
 export default function ProductCard({ product }: { product: Product }) {
   const [liked, setLiked] = useState(false);
   const router = useRouter();
   return (
-    <div className="relative group" onClick={() => router.push("/shop/id")}>
+    <div
+      className="relative group"
+      onClick={() => router.push(`/shop/${product.id}`)}
+    >
       {product.label && (
         <span className="absolute top-2 left-2 text-xs font-medium uppercase tracking-[0.05rem]">
           {product.label}
@@ -32,7 +26,7 @@ export default function ProductCard({ product }: { product: Product }) {
       </button>
       <div className="bg-slate-50 p-4">
         <Image
-          src={product.image}
+          src={product.images[0]}
           alt={product.title}
           width={300}
           height={300}
@@ -43,7 +37,7 @@ export default function ProductCard({ product }: { product: Product }) {
         {product.title}
       </h3>
       <p className="text-center text-xs font-semibold mt-1">
-        {product.currency} {product.price}
+        Rs. {product.price}
       </p>
       {product.colors && (
         <div className="flex justify-center mt-2 gap-2">

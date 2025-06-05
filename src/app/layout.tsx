@@ -1,19 +1,13 @@
 "use client";
 
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Playfair_Display } from "next/font/google";
 import { Jost } from "next/font/google";
 import Banner from "../components/landing/Banner";
 import Header2 from "../components/landing/Header2";
 import Footer from "../components/landing/Footer";
 import { usePathname } from "next/navigation";
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
 
 const jost = Jost({
   subsets: ["latin"],

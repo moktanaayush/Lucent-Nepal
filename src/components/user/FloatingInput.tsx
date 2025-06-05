@@ -6,10 +6,14 @@ export default function FloatingInput({
   label,
   type,
   name,
+  value,
+  onChange,
 }: {
   label: string;
   type: string;
   name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -19,6 +23,8 @@ export default function FloatingInput({
         type={type}
         name={name}
         id={name}
+        value={value}
+        onChange={onChange}
         placeholder=" "
         onFocus={() => setIsFocused(true)}
         onBlur={(e) => setIsFocused(!!e.target.value)}

@@ -1,20 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import ProductTable from "@/components/admin/products/ProductTable";
-import AddProductForm from "@/components/admin/products/AddProductForm";
-
-const numProduct = 10;
+import { Product } from "../../../../lib/types";
 
 export default function Products() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const router = useRouter();
+
+  const fetchProducts = async (page: number) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/api/products?page=${page}&limit=10`
+      );
+      const result = await res.json();
+      console.log(result);
+      setProducts(result.data);
+      setTotalPages(result.totalPages);
+    } catch (err) {
+      console.error("Failed to fetch products", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(page);
+  }, [page]);
 
   return (
-    <div className="relative">
+    <div className="relative p-4">
       {/* Main Content */}
-      <div
-        className={`transition-all duration-300 ${isOpen ? "pr-[400px]" : ""}`}
-      >
+      <div>
         <div className="flex flex-col">
           <div className="flex flex-row justify-between items-center mb-4">
             <div className="flex flex-col">
@@ -22,7 +40,7 @@ export default function Products() {
               <p className="text-gray-600 text-sm">
                 You have total{" "}
                 <span className="font-semibold text-[#DE8383]">
-                  {numProduct}
+                  {products.length}
                 </span>{" "}
                 products.
               </p>
@@ -35,7 +53,7 @@ export default function Products() {
                 className="border px-4 py-2 rounded-lg text-sm"
               />
               <button
-                onClick={() => setIsOpen(true)}
+                onClick={() => router.push("/admin/products/add")}
                 className="btn px-4 py-2 bg-[#DE8383] hover:bg-[#e57a7a] border rounded-md text-white text-sm font-medium flex items-center"
               >
                 + Add Product
@@ -43,27 +61,28 @@ export default function Products() {
             </div>
           </div>
 
-          <ProductTable />
-        </div>
-      </div>
+          <ProductTable products={products} />
 
-      {/* Slide-In Form Panel */}
-      <div
-        className={`fixed top-0 right-0 h-full w-[400px] bg-white shadow-lg z-50 transform transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="p-4 border-b flex justify-between items-center">
-          <h2 className="text-lg font-medium">Add New Product</h2>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="text-gray-500 hover:text-black text-xl"
-          >
-            ✕
-          </button>
-        </div>
-        <div className="p-4 overflow-y-auto">
-          <AddProductForm />
+          {/* Pagination Controls */}
+          <div className="flex justify-center gap-4 mt-6">
+            <button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              disabled={page === 1}
+              className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span className="text-sm pt-1">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              disabled={page === totalPages}
+              className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,35 +1,12 @@
-// components/admin/ProductTable.tsx
-// import ProductRow from "./ProductRow";
-
 import ProductRow from "./ProductRow";
-
 import { Star } from "lucide-react";
+import { Product } from "../../../../lib/types";
 
-const products = [
-  {
-    id: 1,
-    name: "Pink Fitness Tracker",
-    sku: "UY3749",
-    price: 99.49,
-    stock: 49,
-    image: "/images/tops.png",
-    category: ["Fitbit", "Tracker"],
-    featured: true,
-  },
-  {
-    id: 2,
-    name: "Pink Fitness Tracker",
-    sku: "UY3749",
-    price: 99.49,
-    stock: 49,
-    image: "/images/bottom.png",
-    category: ["Fitbit", "Tracker"],
-    featured: true,
-  },
-  // ... more
-];
+type Props = {
+  products: Product[];
+};
 
-export default function ProductTable() {
+export default function ProductTable({ products }: Props) {
   return (
     <div className="border-1 border-gray-400 rounded-lg overflow-x-auto">
       <table className="min-w-full text-sm text-left">
@@ -46,7 +23,7 @@ export default function ProductTable() {
             <th className="p-4 text-center">
               <Star className="w-4 h-4" />
             </th>
-            <th className="p-4 text-right">⋯</th>
+            <th className="p-4 text-center">Action</th>
           </tr>
         </thead>
         <tbody>
